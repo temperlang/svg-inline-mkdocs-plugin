@@ -13,7 +13,7 @@ class MkdocsInlineSelectSvgConfig(mkdocs.config.base.Config):
     pattern: str: a regex used to filter the img src URL's path.
                   If it matches, then the image tag is inlined.
     """
-    pattern = mkdocs.config.config_options.Type(str, default='[.]inline[.]svg$')
+    pattern = mkdocs.config.config_options.Type(str, default='[.]svg$')
 
 class MkdocsInlineSelectSvgPlugin(mkdocs.plugins.BasePlugin[MkdocsInlineSelectSvgConfig]):
     """
@@ -54,7 +54,11 @@ class MkdocsInlineSelectSvgPlugin(mkdocs.plugins.BasePlugin[MkdocsInlineSelectSv
                 continue
             resolved_url_path = urljoin(page_url.path, img_url.path)
             if not pattern.search(resolved_url_path): continue
-            mkdocs.utils.log.info('mkdocs-plugin-inline-select-svg: processing img src=%s', img_src)
+            mkdocs.utils.log.info(
+                '%s: processing img src=%s',
+                self.log_prefix(),
+                img_src
+            )
 
             # If img_url                   is '../foo+bar.svg'
             # and page.url                 is 'dir/page/'
@@ -69,11 +73,11 @@ class MkdocsInlineSelectSvgPlugin(mkdocs.plugins.BasePlugin[MkdocsInlineSelectSv
             try:
                 svg_content = open(abs_fs_path, 'r').read()
                 svg_soup = BeautifulSoup(svg_content, 'xml')
-            except _, e:
+            except:
                 svg_soup = None
                 mkdocs.utils.log.error(
                     '%s: could not read SVG content from %s',
-                    type(self).__name__,
+                    self.log_prefix(),
                     self.__abs_fs_path
                 )
             if svg_soup is not None:
@@ -89,3 +93,5 @@ class MkdocsInlineSelectSvgPlugin(mkdocs.plugins.BasePlugin[MkdocsInlineSelectSv
             return str(soup)
         else:
             return html
+
+    def log_prefix(self): return type(self).__name__
