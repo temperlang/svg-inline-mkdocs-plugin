@@ -1,0 +1,9 @@
+# packaging.python.org/en/latest/tutorials/packaging-projects/
+
+pip3 install --upgrade build
+python3 -m build
+python3 -m pip install --upgrade twine
+python3 -m twine upload --repository pypi dist/*
+
+     Enter "__token__" for password
+     Find API token in the PW store and use it as the password.
