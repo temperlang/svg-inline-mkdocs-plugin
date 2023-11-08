@@ -45,4 +45,7 @@ plugins:
         pattern: "[.]inline[.]svg$"
 ```
 
+With that configuration, `<img src="../foo.inline.svg">` would be
+inlined but `<img src="../foo.svg">` would not.
+
 [MkDocs plugin]: https://www.mkdocs.org/dev-guide/plugins/
