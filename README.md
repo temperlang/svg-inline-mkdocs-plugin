@@ -1,8 +1,19 @@
-# mkdocs-plugin-inline-select-svg
+# Mkdocs Plugin to inline SVGs
 
 A [MkDocs plugin] that inlines SVG images matching a pattern into the output without inlining Materials theme icons.
 
-This operates post HTML generation looking for `img` elements like
+This differs from previously developed plugins in several ways:
+
+- it does not use a regex to find images in Markdown.  It parses the
+  generated HTML, and
+- it can be configured to only inline SVGs with paths matching a
+  pattern, and
+- it parses the SVG and removes SVG elements that are marked
+  `.do-not-inline`.
+
+----
+
+This plugin operates post HTML generation looking for `img` elements like
 
 ```html
 <img src="foo.svg" ...>
